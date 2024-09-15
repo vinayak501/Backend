@@ -5,7 +5,19 @@ dotenv.config();
 import express from "express";
 const app = express();
 
-connectDB();
+connectDB()
+.then(() => {
+    app.listen(process.env.PORT || 8000 , () => {
+        console.log(`Server Listening on ${process.env.PORT}`);
+    })
+    app.on('error',(err)=>{
+        console.error("app.on : ",err);
+        throw Error
+    })
+})
+.catch((err) => {
+    console.log(`ERROR : ${err}`);
+});
 
 /*
 ;(async () => {
