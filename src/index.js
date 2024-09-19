@@ -1,9 +1,10 @@
-import connectDB from "./db/connect";
+import connectDB from "./db/connect.js";
 import dotenv from 'dotenv';
+import { app } from "./app.js";
 
 dotenv.config();
 import express from "express";
-const app = express();
+
 
 connectDB()
 .then(() => {
@@ -12,7 +13,6 @@ connectDB()
     })
     app.on('error',(err)=>{
         console.error("app.on : ",err);
-        throw Error
     })
 })
 .catch((err) => {
@@ -25,7 +25,6 @@ connectDB()
         await mongoose.connect(`${process.env.MONGO_URI}/${DATABASE_NAME}`);
         app.on('error',(err)=>{
             console.log("ERROR : can't talk with express app");
-            throw err;  
         })
         app.listen(3000,()=>{
             console.log(`server listening on ${process.env.PORT}`);
